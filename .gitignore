@@ -1,0 +1,13 @@
+# JetBrains project files
+.idea/
+
+# Cursor editor folder
+.cursor/
+
+# Node.js dependencies
+backend/node_modules/
+
+# Backend auth_info
+backend/auth_info/
+
+backend/.env
