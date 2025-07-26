@@ -1,12 +1,14 @@
-const messageQueue = require('../config/queue');
-const { validateMessage } = require('../utils/validation');
-const { publishEvent } = require('../services/rabbitmqService');
-const { logMessage } = require('../services/dbService');
+import { Request, Response } from 'express';
+import messageQueue from '../config/queue';
+import { validateMessage } from '../utils/validation';
+import { publishEvent } from '../services/rabbitmqService';
+import { logMessage } from '../services/dbService';
 
-async function sendMessage(req, res) {
+export async function sendMessage(req: Request, res: Response): Promise<void> {
   const { error, value } = validateMessage(req.body);
   if (error) {
-    return res.status(400).json({ error: error.details[0].message });
+    res.status(400).json({ error: error.details[0].message });
+    return;
   }
   try {
     const job = await messageQueue.add(value, {
@@ -18,13 +20,11 @@ async function sendMessage(req, res) {
     });
     console.log('Message queued', job.id);
     // Log message as queued
-    await logMessage({ jobId: job.id, phone: value.phone, message: value.message, status: 'queued' });
+    await logMessage({ jobId: String(job.id), phone: value.phone, message: value.message, status: 'queued' });
     // Publish event to RabbitMQ
     await publishEvent('message.queued', { ...value, jobId: job.id });
     res.status(202).json({ jobId: job.id, status: 'queued' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to enqueue message' });
   }
-}
-
-module.exports = { sendMessage }; 
+} 

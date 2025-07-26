@@ -6,8 +6,12 @@
 
 # Node.js dependencies
 backend/node_modules/
+node_modules/
 
 # Backend auth_info
 backend/auth_info/
+
+# Compiled TypeScript output
+backend/dist/
 
 backend/.env
