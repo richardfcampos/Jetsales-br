@@ -25,6 +25,14 @@ POSTGRES_PORT=5432
 DATABASE_URL=postgres://user:password@db:5432/messages_db
 RABBITMQ_URL=amqp://rabbitmq
 SENTRY_DSN=<your_sentry_dsn>
+
+# CORS Configuration (optional)
+# Comma-separated list of allowed origins
+# Examples:
+# CORS_ORIGINS=http://localhost:3001,http://127.0.0.1:3001
+# CORS_ORIGINS=https://yourdomain.com,https://app.yourdomain.com
+# Leave empty to use default development origins
+CORS_ORIGINS=http://localhost:3001,http://127.0.0.1:3001
 ```
 
 ## Setup & Run (Recommended: Docker Compose)

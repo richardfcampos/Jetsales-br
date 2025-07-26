@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@sentry/node": "^9.40.0",
+    "@types/cors": "^2.8.19",
     "amqplib": "^0.10.8",
     "baileys": "^6.7.18",
     "bull": "^4.16.5",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "express-rate-limit": "^8.0.1",
@@ -23,7 +25,9 @@
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.7",
+    "@types/express": "^5.0.3",
     "@types/jest": "^29.5.0",
+    "@types/qrcode-terminal": "^0.12.2",
     "@types/supertest": "^2.0.12",
     "jest": "^30.0.4",
     "node-pg-migrate": "^7.7.0",

@@ -1,8 +1,12 @@
 import express, { Application, Request, Response } from 'express';
 import rateLimit from 'express-rate-limit';
+import { corsMiddleware } from './cors';
 import messageRoutes from '../routes/messageRoutes';
 
 const app: Application = express();
+
+// CORS configuration
+app.use(corsMiddleware);
 
 const limiter = rateLimit({
   windowMs: 60 * 1000,

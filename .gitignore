@@ -7,6 +7,7 @@
 # Node.js dependencies
 backend/node_modules/
 node_modules/
+frontend/node_modules/
 
 # Backend auth_info
 backend/auth_info/
@@ -14,4 +15,14 @@ backend/auth_info/
 # Compiled TypeScript output
 backend/dist/
 
+# Environment files
 backend/.env
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Next.js build output
+frontend/.next/
+frontend/out/
