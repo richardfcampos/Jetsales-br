@@ -26,8 +26,8 @@ export function MessageForm({
           id="phone"
           value={phone}
           onChange={(e) => onPhoneChange(e.target.value)}
-          placeholder="+5511999999999"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          placeholder="+5579999999999"
+          className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           required
         />
       </div>
@@ -42,7 +42,7 @@ export function MessageForm({
           onChange={(e) => onMessageChange(e.target.value)}
           placeholder="Enter your message here..."
           rows={4}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          className="w-full text-black px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
           required
         />
       </div>

@@ -47,6 +47,7 @@ export function useMessageSender(): UseMessageSenderReturn {
       setError('Network error. Please check if the backend is running.');
     } finally {
       setIsLoading(false);
+      setMessage('');
     }
   };
 

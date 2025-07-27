@@ -14,13 +14,7 @@ export function MessageResponse({ response, error }: MessageResponseProps) {
     <div className="mt-4">
       {response && (
         <div className="p-4 bg-green-50 border border-green-200 rounded-md">
-          <h3 className="text-sm font-medium text-green-800">Message Queued Successfully!</h3>
-          <p className="text-sm text-green-700 mt-1">
-            Job ID: {response.jobId}
-          </p>
-          <p className="text-sm text-green-700">
-            Status: {response.status}
-          </p>
+          <h3 className="text-sm font-medium text-green-800">Message Sent Successfully!</h3>
         </div>
       )}
 
