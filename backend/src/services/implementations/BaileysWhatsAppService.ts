@@ -38,18 +38,18 @@ export class BaileysWhatsAppService implements IWhatsAppService {
 
       if (qr) {
         console.log('QR STRING:', qr);
-            this.currentQRCode = qr; // Store QR code
+        this.currentQRCode = qr; // Store QR code
         qrcode.generate(qr, { small: true });
         console.log('Scan the QR code above with your WhatsApp app.');
       }
-          if (connection === 'open') { // Update state on successful connection
-            this.currentQRCode = null;
-            this.phoneNumber = this.baileysSocket?.user?.id?.split('@')[0];
-            console.log('WhatsApp connected successfully');
-          }
+      if (connection === 'open') { // Update state on successful connection
+        this.currentQRCode = null;
+        this.phoneNumber = this.baileysSocket?.user?.id?.split('@')[0];
+        console.log('WhatsApp connected successfully');
+      }
       if (connection === 'close') {
-            this.phoneNumber = undefined; // Clear phone number on close
-            this.currentQRCode = null; // Clear QR code on close
+        this.phoneNumber = undefined; // Clear phone number on close
+        this.currentQRCode = null; // Clear QR code on close
         const shouldReconnect = (lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut;
         if (shouldReconnect) {
           void this.initialize();
@@ -134,10 +134,5 @@ export class BaileysWhatsAppService implements IWhatsAppService {
     } catch (error) {
       console.error('Error in clearCredentials:', error);
     }
-  }
-
-  async forceNewSession(): Promise<void> {
-    await this.clearCredentials();
-    await this.initialize();
   }
 } 

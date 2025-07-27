@@ -42,27 +42,4 @@ export class ServiceContainer {
     }
     return this.whatsAppService;
   }
-
-  // Method to set custom implementations (useful for testing)
-  setDatabaseService(service: IDatabaseService): void {
-    this.databaseService = service;
-  }
-
-  setMessageQueueService(service: IMessageQueueService): void {
-    this.messageQueueService = service;
-  }
-
-  setWhatsAppService(service: IWhatsAppService): void {
-    this.whatsAppService = service;
-  }
-
-  // Cleanup method
-  async cleanup(): Promise<void> {
-    if (this.databaseService && 'close' in this.databaseService) {
-      await (this.databaseService as any).close();
-    }
-    if (this.messageQueueService) {
-      await this.messageQueueService.close();
-    }
-  }
 } 

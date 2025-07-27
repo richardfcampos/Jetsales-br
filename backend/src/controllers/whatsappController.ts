@@ -58,29 +58,3 @@ export async function initialize(req: Request, res: Response): Promise<void> {
     res.status(500).json({ error: 'Failed to start WhatsApp initialization' });
   }
 }
-
-export async function clearCredentials(req: Request, res: Response): Promise<void> {
-  try {
-    const container = ServiceContainer.getInstance();
-    const whatsAppService = container.getWhatsAppService();
-    
-    await whatsAppService.clearCredentials();
-    res.json({ message: 'Credentials cleared successfully' });
-  } catch (error) {
-    console.error('Error clearing credentials:', error);
-    res.status(500).json({ error: 'Failed to clear credentials' });
-  }
-}
-
-export async function forceNewSession(req: Request, res: Response): Promise<void> {
-  try {
-    const container = ServiceContainer.getInstance();
-    const whatsAppService = container.getWhatsAppService();
-    
-    await whatsAppService.forceNewSession();
-    res.json({ message: 'New session started successfully' });
-  } catch (error) {
-    console.error('Error starting new session:', error);
-    res.status(500).json({ error: 'Failed to start new session' });
-  }
-}

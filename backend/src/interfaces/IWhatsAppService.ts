@@ -10,5 +10,4 @@ export interface IWhatsAppService {
   getConnectionStatus(): { isConnected: boolean; phone?: string };
   getQRCode(): Promise<string | null>;
   clearCredentials(): Promise<void>;
-  forceNewSession(): Promise<void>;
 } 

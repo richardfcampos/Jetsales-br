@@ -44,11 +44,6 @@ export class MockWhatsAppService implements IWhatsAppService {
     this.phoneNumber = undefined;
   }
 
-  async forceNewSession(): Promise<void> {
-    await this.clearCredentials();
-    await this.initialize();
-  }
-
   // Test helper methods
   getSentMessages(): WhatsAppMessage[] {
     return [...this.sentMessages];
