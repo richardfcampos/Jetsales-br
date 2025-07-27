@@ -1,6 +1,5 @@
 import amqp from 'amqplib';
-import { sendWhatsAppMessage } from '../services/whatsappService';
-import { updateMessageStatus } from '../services/dbService';
+import { ServiceContainer } from '../container/ServiceContainer';
 import * as Sentry from '@sentry/node';
 import dotenv from 'dotenv';
 
@@ -13,6 +12,10 @@ interface MessageToSend {
 }
 
 export default async function startConsumer(): Promise<void> {
+  const container = ServiceContainer.getInstance();
+  const whatsAppService = container.getWhatsAppService();
+  const databaseService = container.getDatabaseService();
+  
   const queue = 'message.to_send';
   const conn = await amqp.connect(process.env.RABBITMQ_URL || 'amqp://localhost');
   const channel = await conn.createChannel();
@@ -23,16 +26,16 @@ export default async function startConsumer(): Promise<void> {
     if (msg !== null) {
       try {
         const data: MessageToSend = JSON.parse(msg.content.toString());
-        await sendWhatsAppMessage({ phone: data.phone, message: data.message });
+        await whatsAppService.sendMessage({ phone: data.phone, message: data.message });
         console.log('About to update DB for job', data.jobId);
-        await updateMessageStatus(data.jobId, 'sent');
+        await databaseService.updateMessageStatus(data.jobId, 'sent');
         console.log('DB updated for job', data.jobId);
         channel.ack(msg);
       } catch (err) {
         Sentry.captureException(err, { extra: { msg: msg.content.toString() } });
         try {
           const data: MessageToSend = JSON.parse(msg.content.toString());
-          await updateMessageStatus(data.jobId, 'failed');
+          await databaseService.updateMessageStatus(data.jobId, 'failed');
         } catch (dbErr) {
           console.error('Failed to update DB status to failed:', dbErr);
         }

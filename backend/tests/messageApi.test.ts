@@ -1,14 +1,28 @@
 import request from 'supertest';
 import app from '../src/config/express';
+import { ServiceContainer } from '../src/container/ServiceContainer';
+import { MockDatabaseService } from '../src/services/implementations/MockDatabaseService';
+import { MockMessageQueueService } from '../src/services/implementations/MockMessageQueueService';
 
 jest.mock('../src/config/queue', () => ({
   add: jest.fn().mockResolvedValue({ id: 'mock-job-id' }),
 }));
-jest.mock('../src/services/dbService', () => ({
-  logMessage: jest.fn(),
-}));
-jest.mock('../src/services/rabbitmqService', () => ({
-  publishEvent: jest.fn().mockResolvedValue(undefined),
+
+// Mock the service container
+jest.mock('../src/container/ServiceContainer', () => ({
+  ServiceContainer: {
+    getInstance: jest.fn().mockReturnValue({
+      getDatabaseService: jest.fn().mockReturnValue({
+        logMessage: jest.fn(),
+        updateMessageStatus: jest.fn(),
+      }),
+      getMessageQueueService: jest.fn().mockReturnValue({
+        connect: jest.fn(),
+        publishEvent: jest.fn(),
+        close: jest.fn(),
+      }),
+    }),
+  },
 }));
 
 describe('POST /send-message', () => {

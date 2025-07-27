@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/node';
 import dotenv from 'dotenv';
 import app from './config/express';
-import { initBaileys } from './services/whatsappService';
+import { ServiceContainer } from './container/ServiceContainer';
 import registerMessageJob from './jobs/messageJob';
 import startConsumer from './consumers/whatsappConsumer';
 
@@ -16,7 +16,10 @@ Sentry.init({
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 (async () => {
-  await initBaileys();
+  const container = ServiceContainer.getInstance();
+  const whatsAppService = container.getWhatsAppService();
+  
+  await whatsAppService.initialize();
   startConsumer();
   registerMessageJob();
   Sentry.setupExpressErrorHandler(app);

@@ -1,6 +1,5 @@
 import messageQueue from '../config/queue';
-import { publishEvent } from '../services/rabbitmqService';
-import { updateMessageStatus } from '../services/dbService';
+import { ServiceContainer } from '../container/ServiceContainer';
 import * as Sentry from '@sentry/node';
 import { Job } from 'bull';
 
@@ -12,13 +11,17 @@ interface MessageJobData {
 export default function registerMessageJob(): void {
   messageQueue.process(async (job: Job<MessageJobData>) => {
     const { phone, message } = job.data;
+    const container = ServiceContainer.getInstance();
+    const messageQueueService = container.getMessageQueueService();
+    const databaseService = container.getDatabaseService();
+    
     try {
       // Publish event to RabbitMQ for WhatsApp consumer
-      await publishEvent('message.to_send', { jobId: job.id, phone, message });
-      await updateMessageStatus(String(job.id), 'queued_for_send');
+      await messageQueueService.publishEvent('message.to_send', { jobId: job.id, phone, message });
+      await databaseService.updateMessageStatus(String(job.id), 'queued_for_send');
       console.log(`Published message.to_send event for job ${job.id}`);
     } catch (err) {
-      await updateMessageStatus(String(job.id), 'failed');
+      await databaseService.updateMessageStatus(String(job.id), 'failed');
       Sentry.captureException(err, { extra: { jobId: job.id, phone, message } });
       console.error(`Failed to publish message.to_send for job ${job.id}:`, err);
       throw err;
