@@ -1,4 +1,4 @@
-import { QRCode } from './QRCode';
+import { QRCode } from '@/components';
 
 interface QRCodeSectionProps {
   qrCode: string | null;
@@ -29,7 +29,7 @@ export const QRCodeSection: React.FC<QRCodeSectionProps> = ({
             disabled={isLoading}
             className="text-sm text-blue-600 hover:text-blue-800 underline disabled:text-gray-400"
           >
-            Refresh QR Code
+            {isLoading ? 'Refreshing...' : 'Refresh QR Code'}
           </button>
         </>
       ) : (
@@ -42,8 +42,13 @@ export const QRCodeSection: React.FC<QRCodeSectionProps> = ({
             disabled={isLoading}
             className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white font-medium py-3 px-6 rounded-md transition-colors duration-200"
           >
-            {isLoading ? 'Getting QR Code...' : 'Get QR Code'}
+            {isLoading ? 'Initializing WhatsApp...' : 'Get QR Code'}
           </button>
+          {isLoading && (
+            <p className="text-xs text-gray-500 mt-2">
+              This may take a few moments...
+            </p>
+          )}
         </div>
       )}
     </div>

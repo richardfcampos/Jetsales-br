@@ -77,8 +77,9 @@ describe('QRCodeSection', () => {
       />
     );
     
-    expect(screen.getByText('Getting QR Code...')).toBeInTheDocument();
-    expect(screen.getByText('Getting QR Code...')).toBeDisabled();
+    expect(screen.getByText('Initializing WhatsApp...')).toBeInTheDocument();
+    expect(screen.getByText('Initializing WhatsApp...')).toBeDisabled();
+    expect(screen.getByText('This may take a few moments...')).toBeInTheDocument();
   });
 
   it('disables refresh button when loading', () => {
@@ -90,7 +91,7 @@ describe('QRCodeSection', () => {
       />
     );
     
-    const refreshButton = screen.getByText('Refresh QR Code');
+    const refreshButton = screen.getByText('Refreshing...');
     expect(refreshButton).toBeDisabled();
   });
 }); 
