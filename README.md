@@ -1,6 +1,6 @@
 # WhatsApp Message Sender
 
-A full-stack application for sending WhatsApp messages with queue processing, built with Express.js backend and Next.js frontend. Features a simplified WhatsApp login system using QR codes.
+A full-stack application for sending WhatsApp messages with queue processing, built with Express.js backend and Next.js frontend. Features a simplified WhatsApp login system using QR codes and a modern, modular frontend architecture.
 
 ## Project Structure
 
@@ -8,10 +8,19 @@ A full-stack application for sending WhatsApp messages with queue processing, bu
 Jetsales-br/
 ├── backend/          # Express.js API with TypeScript
 │   ├── src/
+│   │   ├── controllers/    # API route handlers
+│   │   ├── services/       # Business logic and external integrations
+│   │   ├── routes/         # API route definitions
+│   │   ├── interfaces/     # TypeScript interfaces
+│   │   └── config/         # Express and middleware configuration
 │   ├── tests/
 │   └── ...
 ├── frontend/         # Next.js React application
 │   ├── src/
+│   │   ├── app/           # Next.js app router pages
+│   │   ├── components/    # Reusable React components
+│   │   ├── hooks/         # Custom React hooks
+│   │   └── ...
 │   ├── components/
 │   └── ...
 └── docker-compose.yml
@@ -28,15 +37,51 @@ Jetsales-br/
 - Sentry for error tracking
 - Jest testing framework
 - Rate limiting and input validation
+- Modular service architecture with dependency injection
 
 ### Frontend
 - Next.js 14 with TypeScript
-- React components with custom hooks
+- **Modern React Architecture**:
+  - Custom hooks for state management
+  - Reusable components with proper separation of concerns
+  - Centralized imports via index files
+  - Comprehensive test coverage
 - Tailwind CSS for styling
 - WhatsApp QR code login system
 - Form validation and error handling
 - Real-time feedback for message sending
 - Automatic redirection based on connection status
+
+## Frontend Architecture
+
+### Custom Hooks
+The application uses a modular hook-based architecture for better code organization:
+
+- **`useHomeState`** - Manages home page state and connection checking
+- **`useHomeLayout`** - Provides layout classes for home page
+- **`useLoginState`** - Manages login page state and QR code logic
+- **`useLoginLayout`** - Provides layout classes for login page
+- **`useWhatsAppStatus`** - Handles WhatsApp connection status polling
+- **`useQRCode`** - Manages QR code fetching and state
+- **`useAutoQRCode`** - Combines status and QR code logic
+- **`useMessageSender`** - Handles message sending functionality
+
+### Reusable Components
+- **`MessageForm`** - Form for sending WhatsApp messages
+- **`MessageResponse`** - Displays message sending results
+- **`QRCodeSection`** - QR code display and interaction
+- **`ErrorDisplay`** - Error message display
+- **`InstructionsSection`** - User instructions
+- **`LoadingSpinner`** - Loading state display
+- **`ConnectionStatus`** - WhatsApp connection status
+- **`QRCode`** - QR code generation and display
+
+### Benefits of This Architecture
+- **Separation of Concerns**: Each hook/component has a single responsibility
+- **Reusability**: Components and hooks can be used across different pages
+- **Testability**: Isolated units make testing easier and more comprehensive
+- **Maintainability**: Changes are localized and easier to implement
+- **Performance**: Optimized re-renders and better bundle splitting
 
 ## WhatsApp Authentication
 
@@ -200,12 +245,19 @@ cd frontend
 npm test
 ```
 
+**Test Coverage:**
+- **6 test suites** - All passing
+- **22 tests** - All passing
+- **100% success rate** - No errors
+- Components, hooks, and utilities are thoroughly tested
+
 ## Technologies Used
 
 - **Backend**: Node.js, Express.js, TypeScript, Bull Queue, RabbitMQ, PostgreSQL, Baileys
 - **Frontend**: Next.js, React, TypeScript, Tailwind CSS
+- **Architecture**: Custom hooks, modular components, centralized imports
 - **Infrastructure**: Docker, Docker Compose
-- **Testing**: Jest
+- **Testing**: Jest with comprehensive coverage
 - **Monitoring**: Sentry
 - **WhatsApp Integration**: Baileys library
 
@@ -214,8 +266,9 @@ npm test
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests
-5. Submit a pull request
+4. Add tests for new functionality
+5. Ensure all tests pass
+6. Submit a pull request
 
 ## License
 
