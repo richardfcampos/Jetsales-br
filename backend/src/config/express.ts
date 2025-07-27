@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import rateLimit from 'express-rate-limit';
 import { corsMiddleware } from './cors';
 import messageRoutes from '../routes/messageRoutes';
+import whatsappRoutes from '../routes/whatsappRoutes';
 
 const app: Application = express();
 
@@ -15,7 +16,8 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(express.json());
 
-app.use(messageRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/whatsapp', whatsappRoutes);
 
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'ok' });

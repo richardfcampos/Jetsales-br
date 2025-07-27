@@ -3,9 +3,15 @@ import { IWhatsAppService, WhatsAppMessage } from '../../interfaces/IWhatsAppSer
 export class MockWhatsAppService implements IWhatsAppService {
   private isInitialized = false;
   private sentMessages: WhatsAppMessage[] = [];
+  private currentQRCode: string | null = null;
+  private phoneNumber: string | undefined;
+  private connectionState: 'connecting' | 'open' | 'close' = 'connecting';
 
   async initialize(): Promise<void> {
     this.isInitialized = true;
+    this.connectionState = 'open';
+    this.phoneNumber = '1234567890';
+    this.currentQRCode = null;
     console.log('Mock WhatsApp: Initialized');
   }
 
@@ -19,7 +25,28 @@ export class MockWhatsAppService implements IWhatsAppService {
   }
 
   isConnected(): boolean {
-    return this.isInitialized;
+    return this.isInitialized && this.connectionState === 'open';
+  }
+
+  getConnectionStatus(): { isConnected: boolean; phone?: string } {
+    return {
+      isConnected: this.isConnected(),
+      phone: this.phoneNumber
+    };
+  }
+
+  async getQRCode(): Promise<string | null> {
+    return 'mock-qr-code';
+  }
+
+  async clearCredentials(): Promise<void> {
+    this.isInitialized = false;
+    this.phoneNumber = undefined;
+  }
+
+  async forceNewSession(): Promise<void> {
+    await this.clearCredentials();
+    await this.initialize();
   }
 
   // Test helper methods
